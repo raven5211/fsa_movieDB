@@ -3,8 +3,8 @@ import db from "#db/client";
 /** @returns all movies in the database */
 export async function getMovies() {
   const sql = `
-  SELECT *
-  FROM movies
+    SELECT *
+    FROM movies
   `;
   const { rows: movies } = await db.query(sql);
   return movies;
@@ -12,7 +12,17 @@ export async function getMovies() {
 
 /** @returns the movie created according to the provided details */
 export async function createMovie({ name, releaseDate, runningTime }) {
-  // TODO
+  const sql = `
+    INSERT INTO movies (name, release_date, running_time)
+    VALUES ($1, $2, $3)
+    RETURNING *
+  `;
+  const { rows: movies } = await db.query(sql, [
+    name,
+    releaseDate,
+    runningTime,
+  ]);
+  return movies[0];
 }
 
 // === Part 2 ===

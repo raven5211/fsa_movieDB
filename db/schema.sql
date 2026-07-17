@@ -3,4 +3,9 @@
 -- production!
 DROP TABLE IF EXISTS movies;
 
--- TODO: create "movies" table
+CREATE TABLE movies(
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE, 
+    release_date DATE NOT NULL,
+    running_time INTEGER NOT NULL
+);
