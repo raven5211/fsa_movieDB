@@ -1,10 +1,11 @@
+import router from "#api/movies";
 import express from "express";
 const app = express();
 export default app;
 
 app.use(express.json());
 
-// TODO: route /movies to movies router
+app.use("/api/movies", router);
 
 app.use((err, req, res, next) => {
   console.error(err);

@@ -32,15 +32,32 @@ export async function createMovie({ name, releaseDate, runningTime }) {
  * @returns undefined if movie with the given id does not exist
  */
 export async function getMovie(id) {
-  // TODO
+  const sql = `
+    SELECT * FROM movies
+    WHERE id = $1
+  `;
+  const { rows: movies } = await db.query(sql, [id]);
+  return movies[0];
 }
 
 /**
  * @returns the updated movie with the given id
  * @returns undefined if movie with the given id does not exist
  */
-export async function updateMovie({ id, name, releaseDate, runningTime }) {
-  // TODO
+export async function updateMovie({ id, name, release_date, running_time }) {
+  const sql = `
+    UPDATE movies
+    SET name = $1, release_date = $2, running_time = $3
+    WHERE id = $4
+    RETURNING *
+  `;
+  const { rows: movies } = await db.query(sql, [
+    name,
+    release_date,
+    running_time,
+    id,
+  ]);
+  return movies[0];
 }
 
 /**
@@ -48,5 +65,11 @@ export async function updateMovie({ id, name, releaseDate, runningTime }) {
  * @returns undefined if movie with the given id does not exist
  */
 export async function deleteMovie(id) {
-  // TODO
+  const sql = `
+    DELETE FROM movies
+    WHERE id = $1
+    RETURNING *
+  `;
+  const { rows: movies } = await db.query(sql, [id]);
+  return movies[0];
 }
